@@ -4,7 +4,8 @@
     "start": "node dist/src/server.js",
     "build": "tsc",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/database/seed.ts"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
