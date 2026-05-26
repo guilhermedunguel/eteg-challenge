@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": "tsx --watch src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "fastify-type-provider-zod": "^6.1.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}

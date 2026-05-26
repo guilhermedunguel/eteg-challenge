@@ -10,5 +10,16 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  server:
+    build:
+      context: ./packages/server
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SERVER_PORT: ${SERVER_PORT}
+    depends_on:
+      - db
+
 volumes:
   pg_data:
