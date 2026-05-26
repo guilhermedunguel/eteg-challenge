@@ -15,6 +15,13 @@
       "when": 1779838744055,
       "tag": "0001_low_serpent_society",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779839037984,
+      "tag": "0002_previous_blackheart",
+      "breakpoints": true
     }
   ]
 }
