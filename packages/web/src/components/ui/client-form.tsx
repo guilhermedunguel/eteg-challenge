@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import { ColorSelector } from "./color-selector";
 import { ErrorBoundary } from "./error-boundary";
 import { toast } from "sonner";
+import { env } from "../../../env";
 
 const createClientFormSchema = z.object({
   name: z
@@ -45,7 +46,7 @@ export function ClientForm() {
   const selectedColor = useWatch({ control, name: "favoriteColorId" });
 
   async function onSubmit(data: createClientFormData) {
-    const response = await fetch("http://localhost:3001/v1/clients", {
+    const response = await fetch(`${env.VITE_SERVER_URL}/v1/clients`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

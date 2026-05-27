@@ -1,5 +1,6 @@
 import { use } from "react";
 import { SelectInput } from "../primitives/select-input";
+import { env } from "../../../env";
 
 interface Color {
   id: number;
@@ -14,7 +15,7 @@ interface ColorSelectorProps {
 }
 
 const colorsPromise: Promise<Color[]> = fetch(
-  "http://localhost:3001/v1/colors",
+  `${env.VITE_SERVER_URL}/v1/colors`,
 ).then((response) => response.json());
 
 export function ColorSelector({ value, onChange, error }: ColorSelectorProps) {

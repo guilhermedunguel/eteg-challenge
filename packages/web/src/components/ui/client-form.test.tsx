@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ClientForm } from "./client-form";
+import { env } from "../../../env";
 import { Toaster } from "sonner";
 
 const fetchSpy = vi.spyOn(globalThis, "fetch");
@@ -106,7 +107,7 @@ describe("ClientForm", () => {
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledWith(
-        "http://localhost:3001/v1/clients",
+        `${env}/v1/clients`,
         expect.objectContaining({
           method: "POST",
           headers: { "Content-Type": "application/json" },

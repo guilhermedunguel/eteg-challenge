@@ -9,6 +9,11 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
 
   server:
     build:
@@ -18,14 +23,18 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       SERVER_PORT: ${SERVER_PORT}
+      NODE_ENV: development
     depends_on:
-      - db
-    command: sh -c "pnpm drizzle-kit migrate && pnpm seed && pnpm dev"
+      db:
+        condition: service_healthy
+    command: sh -c "pnpm drizzle-kit migrate && pnpm db:seed && pnpm dev"
   web:
     build:
       context: ./packages/web
     ports:
       - "3000:3000"
+    environment:
+      VITE_SERVER_URL: http://localhost:${SERVER_PORT}
     depends_on:
       - server
 
