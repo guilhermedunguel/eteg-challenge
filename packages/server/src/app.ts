@@ -9,6 +9,7 @@ import {
 } from "fastify-type-provider-zod";
 import { clientsRoutes } from "./routes/clients-routes";
 import { env } from "../env";
+import { colorsRoutes } from "./routes/colors-routes";
 
 export const app = fastify({
   logger:
@@ -49,6 +50,7 @@ app.register(fastifyScalar, {
 app.register(
   async (api) => {
     api.register(clientsRoutes, { prefix: "/clients" });
+    api.register(colorsRoutes, { prefix: "/colors" });
   },
   { prefix: "/v1" },
 );
