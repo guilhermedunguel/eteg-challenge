@@ -5,7 +5,15 @@ import { clientsTable } from "../database/schema";
 export type ClientDTO = typeof clientsTable.$inferInsert;
 export type Client = typeof clientsTable.$inferSelect;
 
-export class ClientsRepository {
+export interface IClientsRepository {
+  findByCpf({ cpf }: Pick<Client, "cpf">): Promise<Client | null>;
+  findById({ id }: Pick<Client, "id">): Promise<Client | null>;
+  findAll({ page, limit }: { page: number; limit: number }): Promise<Client[]>;
+  insert(client: ClientDTO): Promise<{ id: number }[]>;
+  remove({ id }: Pick<Client, "id">): Promise<number | null>;
+}
+
+export class ClientsRepository implements IClientsRepository {
   constructor(private database: Database) {}
 
   async findAll({ page, limit }: { page: number; limit: number }) {
@@ -17,19 +25,21 @@ export class ClientsRepository {
   }
 
   async findById({ id }: Pick<Client, "id">) {
-    const result = await this.database
+    const [result] = await this.database
       .select()
       .from(clientsTable)
-      .where(eq(clientsTable.id, id));
+      .where(eq(clientsTable.id, id))
+      .limit(1);
 
     return result;
   }
 
   async findByCpf({ cpf }: Pick<Client, "cpf">) {
-    const result = await this.database
+    const [result] = await this.database
       .select()
       .from(clientsTable)
-      .where(eq(clientsTable.cpf, cpf));
+      .where(eq(clientsTable.cpf, cpf))
+      .limit(1);
 
     return result;
   }
