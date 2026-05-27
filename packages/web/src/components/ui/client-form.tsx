@@ -8,6 +8,7 @@ import { cpfApplyMask } from "../../utils/masks";
 import { Suspense } from "react";
 import { ColorSelector } from "./color-selector";
 import { ErrorBoundary } from "./error-boundary";
+import { toast } from "sonner";
 
 const createClientFormSchema = z.object({
   name: z
@@ -19,7 +20,7 @@ const createClientFormSchema = z.object({
     .transform((v) => v.replace(/\D/g, ""))
     .pipe(z.string().length(11, "CPF deve ter 11 caracteres.")),
   email: z.email("Insira um e-mail válido."),
-  color: z.number("Escolha uma cor."),
+  favoriteColorId: z.number("Escolha uma cor."),
   obs: z
     .string()
     .max(1000, "Descrição deve ter menos que 1000 caracteres.")
@@ -29,16 +30,59 @@ const createClientFormSchema = z.object({
 type createClientFormData = z.infer<typeof createClientFormSchema>;
 
 export function ClientForm() {
-  const { register, handleSubmit, setValue, control, formState } =
-    useForm<createClientFormData>({
-      resolver: zodResolver(createClientFormSchema),
-      mode: "onChange",
-    });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    reset,
+    formState,
+    setError,
+  } = useForm<createClientFormData>({
+    resolver: zodResolver(createClientFormSchema),
+  });
 
-  const selectedColor = useWatch({ control, name: "color" });
+  const selectedColor = useWatch({ control, name: "favoriteColorId" });
 
   async function onSubmit(data: createClientFormData) {
-    console.log(data);
+    const response = await fetch("http://localhost:3001/v1/clients", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+
+      switch (response.status) {
+        case 409:
+          if (error.message?.includes("CPF")) {
+            toast.error("Erro ao cadastrar", {
+              description: "O CPF inserido já está em uso",
+            });
+            return setError("cpf", { message: "CPF já está em uso" });
+          }
+          if (error.message?.includes("Email")) {
+            toast.error("Erro ao cadastrar", {
+              description: "O e-mail inserido já está em uso",
+            });
+            return setError("email", { message: "E-mail já está em uso" });
+          }
+          return;
+
+        default:
+          return toast.error("Erro ao cadastrar", {
+            description: "Erro no servidor.",
+          });
+      }
+    }
+
+    toast.success("Cliente cadastrado!", {
+      description: "O cadastro foi realizado com sucesso.",
+    });
+    return reset();
   }
 
   return (
@@ -98,12 +142,12 @@ export function ClientForm() {
             <ColorSelector
               value={selectedColor}
               onChange={(id) =>
-                setValue("color", id, {
+                setValue("favoriteColorId", id, {
                   shouldValidate: true,
                   shouldDirty: true,
                 })
               }
-              error={formState.errors.color?.message}
+              error={formState.errors.favoriteColorId?.message}
             />
           </Suspense>
         </ErrorBoundary>
@@ -118,10 +162,13 @@ export function ClientForm() {
             type="button"
             disabled={!formState.isDirty}
             variant="secondary"
+            onClick={() => reset()}
           >
             Limpar
           </Button>
-          <Button type="submit">Cadastrar</Button>
+          <Button disabled={formState.isSubmitting} type="submit">
+            Cadastrar
+          </Button>
         </div>
       </div>
     </form>
