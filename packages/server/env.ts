@@ -4,6 +4,7 @@ import { z } from "zod";
 dotenv.config({ path: "../../.env" });
 
 const envSchema = z.object({
+  NODE_ENV: z.enum(["production", "development", "test"]),
   DATABASE_URL: z.string(),
   SERVER_PORT: z.coerce.number(),
 });

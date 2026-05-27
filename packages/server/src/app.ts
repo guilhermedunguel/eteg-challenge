@@ -8,17 +8,21 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import { clientsRoutes } from "./routes/clients-routes";
+import { env } from "../env";
 
 export const app = fastify({
-  logger: {
-    transport: {
-      target: "pino-pretty",
-      options: {
-        translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname",
-      },
-    },
-  },
+  logger:
+    env.NODE_ENV === "development"
+      ? {
+          transport: {
+            target: "pino-pretty",
+            options: {
+              translateTime: "HH:MM:ss Z",
+              ignore: "pid,hostname",
+            },
+          },
+        }
+      : false,
 });
 
 // Plugins
