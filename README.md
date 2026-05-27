@@ -1,6 +1,6 @@
 <h1 align='center'>ETEG Challenge - Cadastro de Clientes</h1>
 <br>
-<img src="https://i.imgur.com/N5wwXQ7.png" alt='projectBanner'>
+<img src="https://i.imgur.com/3g63FZF.png" alt='projectBanner'>
 <hr>
 
 <h2>🟢 Sobre:</h2>
