@@ -1,4 +1,5 @@
 import { fastify } from "fastify";
+import cors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import fastifyScalar from "@scalar/fastify-api-reference";
 
@@ -44,6 +45,11 @@ app.register(fastifySwagger, {
 
 app.register(fastifyScalar, {
   routePrefix: "/docs",
+});
+
+app.register(cors, {
+  // Deixei o Cors aberto, ao colocar em produção seria ideal configurar adequadamente.
+  origin: true,
 });
 
 // Routes
