@@ -92,13 +92,11 @@ eteg-challenge/
 │   │   │   ├── errors/        # Classes de erro customizadas
 │   │   │   └── server.ts      # Entry point
 │   │   ├── Dockerfile
-│   │   └── Dockerfile.dev
 │   └── web/                   # Frontend (React + Vite + TypeScript)
 │       ├── src/
 │       │   ├── components/    # Componentes UI (Input, Button, SelectInput, etc)
 │       │   └── utils/         # Utilitários (máscaras, etc)
 │       ├── Dockerfile
-│       └── Dockerfile.dev
 ├── .env.example
 ├── docker-compose.yaml
 └── .github/workflows/ci.yml
