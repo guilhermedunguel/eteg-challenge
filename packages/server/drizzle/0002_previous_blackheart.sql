@@ -1,0 +1,1 @@
+ALTER TABLE "colors" ADD CONSTRAINT "colors_hex_unique" UNIQUE("hex");
