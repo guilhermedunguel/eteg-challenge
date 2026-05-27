@@ -39,7 +39,8 @@ export const clientsRoutes: FastifyPluginAsyncZod = async (app) => {
         if (error instanceof ConflictError) {
           return reply.status(409).send({ message: error.message });
         }
-        throw error;
+        console.error(error);
+        return reply.status(500).send({ message: "Internal server error" });
       }
     },
   );
