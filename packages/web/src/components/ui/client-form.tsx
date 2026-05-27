@@ -36,12 +36,28 @@ export function ClientForm() {
     handleSubmit,
     setValue,
     control,
-    reset,
+
+    clearErrors,
     formState,
     setError,
   } = useForm<createClientFormData>({
     resolver: zodResolver(createClientFormSchema),
+    defaultValues: {
+      name: "",
+      cpf: "",
+      email: "",
+      obs: "",
+    },
   });
+
+  function clearForm() {
+    setValue("name", "");
+    setValue("cpf", "");
+    setValue("email", "");
+    setValue("obs", "");
+    setValue("favoriteColorId", undefined as unknown as number);
+    clearErrors();
+  }
 
   const selectedColor = useWatch({ control, name: "favoriteColorId" });
 
@@ -63,33 +79,39 @@ export function ClientForm() {
             toast.error("Erro ao cadastrar", {
               description: "O CPF inserido já está em uso",
             });
-            return setError("cpf", { message: "CPF já está em uso" });
+            setError("cpf", { message: "CPF já está em uso" });
+            return;
           }
           if (error.message?.includes("Email")) {
             toast.error("Erro ao cadastrar", {
               description: "O e-mail inserido já está em uso",
             });
-            return setError("email", { message: "E-mail já está em uso" });
+            setError("email", { message: "E-mail já está em uso" });
+            return;
           }
           return;
 
         default:
-          return toast.error("Erro ao cadastrar", {
+          toast.error("Erro ao cadastrar", {
             description: "Erro no servidor.",
           });
+          return;
       }
     }
 
     toast.success("Cliente cadastrado!", {
       description: "O cadastro foi realizado com sucesso.",
     });
-    return reset();
+
+    return clearForm();
   }
 
   return (
     <form
       className="flex w-full flex-col gap-8"
-      onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
+      onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.log("ERRORS:", errors);
+      })}
     >
       <header className="flex flex-col">
         <h1 className="text-neutral-700 font-medium text-2xl">
@@ -163,7 +185,7 @@ export function ClientForm() {
             type="button"
             disabled={!formState.isDirty}
             variant="secondary"
-            onClick={() => reset()}
+            onClick={clearForm}
           >
             Limpar
           </Button>
