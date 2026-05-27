@@ -3,10 +3,14 @@ import { colorsTable } from "../database/schema";
 
 export type Color = typeof colorsTable.$inferSelect;
 
-export class ColorsRepository {
+export interface IColorsRepository {
+  findAll(): Promise<Color[]>;
+}
+
+export class ColorsRepository implements IColorsRepository {
   constructor(private database: Database) {}
 
-  async findAll(): Promise<Color[]> {
+  async findAll() {
     return this.database.select().from(colorsTable);
   }
 }
