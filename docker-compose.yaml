@@ -20,6 +20,7 @@ services:
       SERVER_PORT: ${SERVER_PORT}
     depends_on:
       - db
+    command: sh -c "pnpm drizzle-kit migrate && pnpm seed && pnpm dev"
   web:
     build:
       context: ./packages/web
