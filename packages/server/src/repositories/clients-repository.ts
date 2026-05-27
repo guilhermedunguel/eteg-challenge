@@ -7,6 +7,7 @@ export type Client = typeof clientsTable.$inferSelect;
 
 export interface IClientsRepository {
   findByCpf({ cpf }: Pick<Client, "cpf">): Promise<Client | null>;
+  findByEmail({ email }: Pick<Client, "email">): Promise<Client | null>;
   insert(client: ClientDTO): Promise<{ id: number }>;
 }
 
@@ -18,6 +19,16 @@ export class ClientsRepository implements IClientsRepository {
       .select()
       .from(clientsTable)
       .where(eq(clientsTable.cpf, cpf))
+      .limit(1);
+
+    return result;
+  }
+
+  async findByEmail({ email }: Pick<Client, "email">) {
+    const [result] = await this.database
+      .select()
+      .from(clientsTable)
+      .where(eq(clientsTable.email, email))
       .limit(1);
 
     return result;
