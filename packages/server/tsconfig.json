@@ -12,6 +12,7 @@
       "ESNext.Iterator",
       "ESNext.Promise"
     ],
+
     "module": "nodenext",
     "target": "es2024",
     "outDir": "dist",
@@ -21,5 +22,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "node16"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
