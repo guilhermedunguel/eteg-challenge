@@ -6,11 +6,11 @@ ENV CI=true
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-EXPOSE ${SERVER_PORT}
+EXPOSE 3000
 
-CMD ["pnpm", "dev"]
+CMD ["pnpm", "dev", "--host"]

@@ -31,6 +31,14 @@ export class ClientsService {
       throw new ConflictError("CPF already exists");
     }
 
+    const clientByEmail = await this.repository.findByEmail({
+      email: client.email,
+    });
+
+    if (clientByEmail) {
+      throw new ConflictError("Email already exists");
+    }
+
     return await this.repository.insert(parsedClient.data);
   }
 }

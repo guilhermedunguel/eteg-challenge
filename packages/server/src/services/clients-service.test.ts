@@ -4,6 +4,7 @@ import { ConflictError, ValidationError } from "../errors";
 
 const mockRepository = {
   findByCpf: vi.fn(),
+  findByEmail: vi.fn(),
   insert: vi.fn(),
 };
 
