@@ -107,7 +107,7 @@ describe("ClientForm", () => {
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledWith(
-        `${env}/v1/clients`,
+        `${env.VITE_SERVER_URL}/v1/clients`,
         expect.objectContaining({
           method: "POST",
           headers: { "Content-Type": "application/json" },
