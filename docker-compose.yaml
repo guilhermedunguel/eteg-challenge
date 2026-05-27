@@ -20,6 +20,13 @@ services:
       SERVER_PORT: ${SERVER_PORT}
     depends_on:
       - db
+  web:
+    build:
+      context: ./packages/web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
 
 volumes:
   pg_data:
