@@ -1,8 +1,6 @@
 import z from "zod";
 import {
-  Client,
   ClientDTO,
-  ClientsRepository,
   IClientsRepository,
 } from "../repositories/clients-repository";
 
@@ -16,10 +14,6 @@ export const clientSchema = z.object({
 
 export class ClientsService {
   constructor(private repository: IClientsRepository) {}
-
-  async list({ page, limit }: { page: number; limit: number }) {
-    return await this.repository.findAll({ page, limit });
-  }
 
   async create(client: ClientDTO) {
     const parsedClient = z.safeParse(clientSchema, client);
@@ -37,15 +31,5 @@ export class ClientsService {
     }
 
     return await this.repository.insert(parsedClient.data);
-  }
-
-  async remove({ id }: Pick<Client, "id">) {
-    const client = await this.repository.findById({ id });
-
-    if (!client) {
-      throw new Error("Client not found");
-    }
-
-    return await this.repository.remove({ id });
   }
 }
