@@ -2,8 +2,8 @@ import { eq } from "drizzle-orm";
 import { Database } from "../database";
 import { clientsTable } from "../database/schema";
 
-type ClientDTO = typeof clientsTable.$inferInsert;
-type Client = typeof clientsTable.$inferSelect;
+export type ClientDTO = typeof clientsTable.$inferInsert;
+export type Client = typeof clientsTable.$inferSelect;
 
 export class ClientsRepository {
   constructor(private database: Database) {}

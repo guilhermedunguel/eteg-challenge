@@ -1,7 +1,7 @@
 import { Database } from "../database";
 import { colorsTable } from "../database/schema";
 
-type Color = typeof colorsTable.$inferSelect;
+export type Color = typeof colorsTable.$inferSelect;
 
 export class ColorsRepository {
   constructor(private database: Database) {}
