@@ -7,7 +7,7 @@ export type Client = typeof clientsTable.$inferSelect;
 
 export interface IClientsRepository {
   findByCpf({ cpf }: Pick<Client, "cpf">): Promise<Client | null>;
-  insert(client: ClientDTO): Promise<{ id: number }[]>;
+  insert(client: ClientDTO): Promise<{ id: number }>;
 }
 
 export class ClientsRepository implements IClientsRepository {
@@ -24,7 +24,7 @@ export class ClientsRepository implements IClientsRepository {
   }
 
   async insert(client: ClientDTO) {
-    const result = await this.database
+    const [result] = await this.database
       .insert(clientsTable)
       .values(client)
       .returning({ id: clientsTable.id });
