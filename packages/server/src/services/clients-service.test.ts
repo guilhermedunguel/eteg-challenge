@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ClientsService } from "./clients-service";
+import { ConflictError, ValidationError } from "../errors";
 
 const mockRepository = {
   findByCpf: vi.fn(),
@@ -43,8 +44,8 @@ describe("ClientsService", () => {
         favoriteColorId: 1,
       };
 
-      await expect(service.create(client)).rejects.toThrow(
-        "CPF already exists",
+      await expect(service.create(client)).rejects.toBeInstanceOf(
+        ConflictError,
       );
     });
 
@@ -56,7 +57,9 @@ describe("ClientsService", () => {
         favoriteColorId: 1,
       };
 
-      await expect(service.create(invalidClient)).rejects.toThrow();
+      await expect(service.create(invalidClient)).rejects.toBeInstanceOf(
+        ValidationError,
+      );
     });
   });
 });
