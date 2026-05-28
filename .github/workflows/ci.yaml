@@ -23,6 +23,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Setup env
         run: cp .env.example .env
+      - name: Type check
+        run: pnpm --filter server typecheck
       - name: Run tests
         run: pnpm --filter server test
 
@@ -45,6 +47,9 @@ jobs:
 
       - name: Setup env
         run: cp .env.example .env
+
+      - name: Type check
+        run: pnpm --filter web typecheck
 
       - name: Run tests
         run: pnpm --filter web test

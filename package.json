@@ -3,6 +3,7 @@
   "packageManager": "pnpm@10.28.2",
   "private": true,
   "scripts": {
+    "dev": "pnpm --recursive --parallel run dev",
     "dev:server": "pnpm --filter server dev",
     "dev:web": "pnpm --filter web dev",
     "test": "pnpm --recursive test",
