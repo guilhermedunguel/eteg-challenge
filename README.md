@@ -3,17 +3,6 @@
 <img src="https://i.imgur.com/3g63FZF.png" alt='projectBanner'>
 <hr>
 
-<h2>🌐 Deploy:</h2>
-<ul>
-  <li><strong>Aplicação:</strong> <a href="https://eteg.guilhermedunguel.com">https://eteg.guilhermedunguel.com</a></li>
-  <li><strong>API:</strong> <a href="https://api.eteg.guilhermedunguel.com">https://api.eteg.guilhermedunguel.com</a></li>
-  <li><strong>Documentação da API:</strong> <a href="https://api.eteg.guilhermedunguel.com/docs">https://api.eteg.guilhermedunguel.com/docs</a></li>
-</ul>
-<p>
-  Hospedado no <a href="https://railway.app/">Railway</a>, com deploy automático na branch <code>main</code> gated por CI (GitHub Actions).
-</p>
-<br>
-
 <h2>🟢 Sobre:</h2>
   <h3>🗂️ O projeto:</h3>
   <ul>
@@ -34,6 +23,9 @@
   <h3>⚙️ Decisões técnicas:</h3>
   <ul>
     <li>
+      <p><strong>Escopo limitado ao enunciado</strong>: a aplicação implementa apenas o caso de uso descrito — cadastro único de cliente, sem autenticação, listagem ou CRUD completo. Funcionalidades adicionais foram deliberadamente evitadas para não especular sobre necessidades que não foram validadas. Em um cenário real, seriam definidas em conversa com o time de produto antes da implementação.</p>
+    </li>
+    <li>
       <p><strong>Fastify</strong> no lugar de Express/NestJS: performance superior, suporte nativo a schema validation e plugin system bem estruturado.</p>
     </li>
     <li>
@@ -46,7 +38,7 @@
       <p><strong>Injeção de dependência manual</strong>: repositories são injetados nos services via construtor, permitindo mocks nos testes sem libs externas.</p>
     </li>
     <li>
-      <p><strong>Cores em tabela separada</strong>: o enunciado menciona que "isso pode mudar posteriormente". Modelar como tabela permite adicionar/remover cores via banco, sem alterar código.</p>
+      <p><strong>Cores em tabela separada</strong>: o enunciado menciona que "cores podem mudar posteriormente". Modelar como tabela permite adicionar/remover cores via banco, sem alterar código.</p>
     </li>
     <li>
       <p><strong>Seed idempotente</strong>: usa <code>onConflictDoNothing</code>, pode ser executado múltiplas vezes sem duplicar dados.</p>
@@ -58,6 +50,17 @@
       <p><strong>Setup Docker em dois modos</strong> (dev/prod): desenvolvimento com hot reload e watchers para iteração rápida, produção com builds multi-stage, imagens enxutas e código compilado — espelhando o que sobe em deploy real.</p>
     </li>
   </ul>
+<br>
+
+<h2>🌐 Deploy:</h2>
+<ul>
+  <li><strong>Aplicação:</strong> <a href="https://eteg.guilhermedunguel.com">https://eteg.guilhermedunguel.com</a></li>
+  <li><strong>API:</strong> <a href="https://api.eteg.guilhermedunguel.com">https://api.eteg.guilhermedunguel.com</a></li>
+  <li><strong>Documentação da API:</strong> <a href="https://api.eteg.guilhermedunguel.com/docs">https://api.eteg.guilhermedunguel.com/docs</a></li>
+</ul>
+<p>
+  Hospedado no <a href="https://railway.app/">Railway</a>, com deploy automático na branch <code>main</code> gated por CI (GitHub Actions).
+</p>
 <br>
 
 <h2>🚀 Como rodar localmente:</h2>
@@ -146,14 +149,15 @@ eteg-challenge/
 ├── pnpm-lock.yaml             # Lockfile único do monorepo
 └── pnpm-workspace.yaml        # Definição dos packages
 ```
+
 <br>
 
 <h2>📡 Endpoints da API:</h2>
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| `GET` | `/v1/colors` | Lista todas as cores disponíveis |
-| `POST` | `/v1/clients` | Cadastra um novo cliente |
+| Método | Rota          | Descrição                        |
+| ------ | ------------- | -------------------------------- |
+| `GET`  | `/v1/colors`  | Lista todas as cores disponíveis |
+| `POST` | `/v1/clients` | Cadastra um novo cliente         |
 
 <h3>POST /v1/clients - Body:</h3>
 

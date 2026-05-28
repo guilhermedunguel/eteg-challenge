@@ -4,7 +4,6 @@ import { fastifySwagger } from "@fastify/swagger";
 import fastifyScalar from "@scalar/fastify-api-reference";
 import { AppError } from "./errors";
 import z, { ZodError } from "zod";
-
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -13,6 +12,7 @@ import {
 import { clientsRoutes } from "./routes/clients-routes";
 import { env } from "../env";
 import { colorsRoutes } from "./routes/colors-routes";
+import { healthRoutes } from "./routes/health-routes";
 
 export const app = fastify({
   logger:
@@ -86,6 +86,12 @@ app.setErrorHandler((error: FastifyError, request, reply) => {
 });
 
 // Routes
+app.get("/", () => ({
+  service: "ETEG Challenge API",
+  version: "1.0.0",
+  docs: "/docs",
+}));
+
 app.register(
   async (api) => {
     api.register(clientsRoutes, { prefix: "/clients" });
