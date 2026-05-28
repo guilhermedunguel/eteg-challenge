@@ -1,7 +1,9 @@
-import { fastify } from "fastify";
+import { fastify, FastifyError } from "fastify";
 import cors from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import fastifyScalar from "@scalar/fastify-api-reference";
+import { AppError } from "./errors";
+import z, { ZodError } from "zod";
 
 import {
   jsonSchemaTransform,
@@ -50,6 +52,26 @@ app.register(fastifyScalar, {
 app.register(cors, {
   // Deixei o Cors aberto, ao colocar em produção seria ideal configurar adequadamente.
   origin: true,
+});
+
+app.setErrorHandler((error: FastifyError, request, reply) => {
+  if (error instanceof AppError) {
+    return reply.status(error.statusCode).send({ message: error.message });
+  }
+
+  if (error instanceof ZodError) {
+    return reply.status(400).send({
+      message: "Validation error",
+      issues: z.flattenError(error).fieldErrors,
+    });
+  }
+
+  if (error.statusCode && error.statusCode < 500) {
+    return reply.status(error.statusCode).send({ message: error.message });
+  }
+
+  request.log.error(error);
+  return reply.status(500).send({ message: "Internal server error" });
 });
 
 // Routes

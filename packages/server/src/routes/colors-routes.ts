@@ -29,13 +29,8 @@ export const colorsRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (_, reply) => {
-      try {
-        const colors = await colorsService.list();
-        return reply.status(200).send(colors);
-      } catch (error) {
-        console.error(error);
-        return reply.status(500).send({ message: "Internal server error" });
-      }
+      const colors = await colorsService.list();
+      return reply.status(200).send(colors);
     },
   );
 };
