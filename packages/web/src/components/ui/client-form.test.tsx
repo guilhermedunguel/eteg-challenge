@@ -45,7 +45,7 @@ function renderForm() {
 
 describe("ClientForm", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it("should render all form fields", () => {
@@ -107,7 +107,7 @@ describe("ClientForm", () => {
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledWith(
-        `${env}/v1/clients`,
+        `${env.VITE_SERVER_URL}/v1/clients`,
         expect.objectContaining({
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -120,7 +120,7 @@ describe("ClientForm", () => {
     fetchSpy.mockResolvedValueOnce({
       ok: false,
       status: 409,
-      json: async () => ({ message: "CPF already exists" }),
+      json: async () => ({ code: "CPF_TAKEN", message: "CPF already exists" }),
     } as Response);
 
     renderForm();
@@ -146,7 +146,7 @@ describe("ClientForm", () => {
     fetchSpy.mockResolvedValueOnce({
       ok: false,
       status: 409,
-      json: async () => ({ message: "Email already exists" }),
+      json: async () => ({ code: "EMAIL_TAKEN", message: "Email already exists" }),
     } as Response);
 
     renderForm();
