@@ -120,7 +120,7 @@ describe("ClientForm", () => {
     fetchSpy.mockResolvedValueOnce({
       ok: false,
       status: 409,
-      json: async () => ({ message: "CPF already exists" }),
+      json: async () => ({ code: "CPF_TAKEN", message: "CPF already exists" }),
     } as Response);
 
     renderForm();
@@ -146,7 +146,7 @@ describe("ClientForm", () => {
     fetchSpy.mockResolvedValueOnce({
       ok: false,
       status: 409,
-      json: async () => ({ message: "Email already exists" }),
+      json: async () => ({ code: "EMAIL_TAKEN", message: "Email already exists" }),
     } as Response);
 
     renderForm();
