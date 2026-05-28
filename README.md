@@ -3,6 +3,17 @@
 <img src="https://i.imgur.com/3g63FZF.png" alt='projectBanner'>
 <hr>
 
+<h2>🌐 Deploy:</h2>
+<ul>
+  <li><strong>Aplicação:</strong> <a href="https://eteg.guilhermedunguel.com">https://eteg.guilhermedunguel.com</a></li>
+  <li><strong>API:</strong> <a href="https://api.eteg.guilhermedunguel.com">https://api.eteg.guilhermedunguel.com</a></li>
+  <li><strong>Documentação da API:</strong> <a href="https://api.eteg.guilhermedunguel.com/docs">https://api.eteg.guilhermedunguel.com/docs</a></li>
+</ul>
+<p>
+  Hospedado no <a href="https://railway.app/">Railway</a>, com deploy automático na branch <code>main</code> gated por CI (GitHub Actions).
+</p>
+<br>
+
 <h2>🟢 Sobre:</h2>
   <h3>🗂️ O projeto:</h3>
   <ul>
@@ -43,10 +54,13 @@
     <li>
       <p><strong>Testes unitários nos services e componentes</strong>: validam lógica de negócio (duplicidade de CPF/email) e comportamento do formulário (máscara, validação, submit, reset).</p>
     </li>
+    <li>
+      <p><strong>Setup Docker em dois modos</strong> (dev/prod): desenvolvimento com hot reload e watchers para iteração rápida, produção com builds multi-stage, imagens enxutas e código compilado — espelhando o que sobe em deploy real.</p>
+    </li>
   </ul>
 <br>
 
-<h2>🚀 Como rodar:</h2>
+<h2>🚀 Como rodar localmente:</h2>
 <h3>Pré-requisitos:</h3>
 <ul>
   <li>Docker e Docker Compose instalados</li>
@@ -62,15 +76,29 @@ cd eteg-challenge
 
 # Copie o arquivo de variáveis de ambiente
 cp .env.example .env
+```
 
-# Suba a aplicação
+<h3>🛠️ Modo desenvolvimento:</h3>
+
+<p>Hot reload no frontend (Vite dev server) e watcher no backend (<code>tsx --watch</code>). Ideal pra iteração rápida.</p>
+
+```bash
+docker compose -f docker-compose.dev.yaml up
+```
+
+<h3>📦 Modo produção:</h3>
+
+<p>Builds multi-stage, código TypeScript compilado, frontend servido por <strong>nginx</strong> a partir do bundle do Vite. É o mesmo build que sobe no Railway.</p>
+
+```bash
 docker compose up
 ```
 
 <blockquote>
-⚠️ Aguarde os logs confirmarem que o server está pronto antes de acessar a aplicação. O servidor executa migrations e seed automaticamente na primeira inicialização.
+⚠️ Em qualquer um dos modos, aguarde os logs confirmarem que o server está pronto antes de acessar a aplicação. O servidor executa migrations e seed automaticamente na primeira inicialização.
 </blockquote>
 
+<h3>Acesso local (qualquer modo):</h3>
 <ul>
   <li><strong>Frontend:</strong> <a href="http://localhost:3000">http://localhost:3000</a></li>
   <li><strong>API:</strong> <a href="http://localhost:3001">http://localhost:3001</a></li>
@@ -99,18 +127,21 @@ eteg-challenge/
 │   │   │   ├── routes/        # Rotas HTTP
 │   │   │   ├── errors/        # Classes de erro customizadas
 │   │   │   └── server.ts      # Entry point
-│   │   ├── Dockerfile
+│   │   ├── Dockerfile         # Multi-stage de produção
+│   │   ├── Dockerfile.dev     # Imagem de desenvolvimento (tsx --watch)
 │   │   └── package.json
 │   └── web/                   # Frontend (React + Vite + TypeScript)
 │       ├── src/
 │       │   ├── components/    # Componentes UI (Input, Button, SelectInput, etc)
 │       │   └── utils/         # Utilitários (máscaras, etc)
-│       ├── Dockerfile
+│       ├── Dockerfile         # Multi-stage de produção (vite build + nginx)
+│       ├── Dockerfile.dev     # Imagem de desenvolvimento (vite dev)
 │       └── package.json
 ├── .github/workflows/ci.yaml  # Pipeline de testes (server + web em paralelo)
 ├── .env.example
 ├── .npmrc                     # Config do pnpm (supply-chain policies)
-├── docker-compose.yaml
+├── docker-compose.yaml        # Stack de produção (nginx + node dist)
+├── docker-compose.dev.yaml    # Stack de desenvolvimento (hot reload)
 ├── package.json               # Workspace root
 ├── pnpm-lock.yaml             # Lockfile único do monorepo
 └── pnpm-workspace.yaml        # Definição dos packages
@@ -132,15 +163,15 @@ eteg-challenge/
   "cpf": "12345678901",
   "email": "joao@email.com",
   "favoriteColorId": 1,
-  "obs": "Observações opcionais"
+  "observations": "Observações opcionais"
 }
 ```
 
 <h3>Respostas:</h3>
 <ul>
   <li><code>201</code> - Cliente cadastrado com sucesso</li>
-  <li><code>400</code> - Erro de validação</li>
-  <li><code>409</code> - CPF ou e-mail já cadastrado</li>
+  <li><code>400</code> - Erro de validação (com <code>code</code> e <code>message</code>)</li>
+  <li><code>409</code> - CPF ou e-mail já cadastrado (<code>code</code>: <code>CPF_TAKEN</code> ou <code>EMAIL_TAKEN</code>)</li>
   <li><code>500</code> - Erro interno do servidor</li>
 </ul>
 <br>
@@ -160,6 +191,8 @@ pnpm --filter web test
 # Ambos
 pnpm test
 ```
+
+<p>Os testes também rodam em CI a cada Pull Request, com jobs paralelos para server e web. Deploy em produção é bloqueado caso algum job falhe.</p>
 <br>
 
 <h2>🖥️ Tecnologias:</h2>
@@ -186,8 +219,10 @@ pnpm test
 
 <h3>Infraestrutura:</h3>
 <ul>
-  <li>Docker + Docker Compose</li>
+  <li>Docker + Docker Compose (dev/prod separados)</li>
+  <li>Nginx (servindo o bundle estático em produção)</li>
   <li>GitHub Actions (CI)</li>
+  <li>Railway (hospedagem)</li>
 </ul>
 <br>
 
