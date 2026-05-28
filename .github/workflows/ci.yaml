@@ -28,3 +28,27 @@ jobs:
       - name: Run tests
         run: pnpm test
         working-directory: packages/server
+
+  test-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
+          cache-dependency-path: packages/web/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: packages/web
+
+      - name: Run tests
+        run: pnpm test
+        working-directory: packages/web
