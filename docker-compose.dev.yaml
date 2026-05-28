@@ -18,26 +18,26 @@ services:
   server:
     build:
       context: .
-      dockerfile: packages/server/Dockerfile
+      dockerfile: packages/server/Dockerfile.dev
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       SERVER_PORT: ${SERVER_PORT}
-      NODE_ENV: production
+      NODE_ENV: development
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
     depends_on:
       db:
         condition: service_healthy
-
+    command: sh -c "pnpm db:migrate && pnpm db:seed && pnpm dev"
   web:
     build:
       context: .
-      dockerfile: packages/web/Dockerfile
-      args:
-        VITE_SERVER_URL: ${VITE_SERVER_URL}
+      dockerfile: packages/web/Dockerfile.dev
     ports:
-      - "3000:80"
+      - "3000:3000"
+    environment:
+      VITE_SERVER_URL: http://localhost:${SERVER_PORT}
     depends_on:
       - server
 
