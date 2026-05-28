@@ -116,7 +116,7 @@ export function ClientForm() {
           Cadastro de cliente
         </h1>
         <h2 className="text-neutral-500 text-lg">
-          Preencha o formulário abaixo para cadastrar clientes.
+          Preencha o formulário abaixo para se cadastrar.
         </h2>
       </header>
       <div className="flex w-full flex-col gap-6">
