@@ -12,7 +12,6 @@ import {
 import { clientsRoutes } from "./routes/clients-routes";
 import { env } from "../env";
 import { colorsRoutes } from "./routes/colors-routes";
-import { healthRoutes } from "./routes/health-routes";
 
 export const app = fastify({
   logger:
