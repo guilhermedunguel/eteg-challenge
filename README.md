@@ -74,8 +74,14 @@ docker compose up
 <ul>
   <li><strong>Frontend:</strong> <a href="http://localhost:3000">http://localhost:3000</a></li>
   <li><strong>API:</strong> <a href="http://localhost:3001">http://localhost:3001</a></li>
-  <li><strong>Documentação da API (Scalar):</strong> <a href="http://localhost:3001/docs">http://localhost:3001/docs</a></li>
 </ul>
+
+<h3>📖 Documentação interativa da API</h3>
+<p>
+  Toda a API está documentada via <strong>OpenAPI</strong> e renderizada com <a href="https://scalar.com/">Scalar</a>, disponível em
+  <a href="http://localhost:3001/docs"><code>http://localhost:3001/docs</code></a> assim que o servidor sobe.
+  É possível explorar os endpoints, schemas de request/response e até disparar chamadas direto pelo navegador.
+</p>
 <br>
 
 <h2>📁 Estrutura do projeto:</h2>
