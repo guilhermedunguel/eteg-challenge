@@ -22,7 +22,7 @@ const createClientFormSchema = z.object({
     .pipe(z.string().length(11, "CPF deve ter 11 caracteres.")),
   email: z.email("Insira um e-mail válido."),
   favoriteColorId: z.number("Escolha uma cor."),
-  obs: z
+  observations: z
     .string()
     .max(1000, "Descrição deve ter menos que 1000 caracteres.")
     .optional(),
@@ -46,7 +46,7 @@ export function ClientForm() {
       name: "",
       cpf: "",
       email: "",
-      obs: "",
+      observations: "",
     },
   });
 
@@ -54,7 +54,7 @@ export function ClientForm() {
     setValue("name", "");
     setValue("cpf", "");
     setValue("email", "");
-    setValue("obs", "");
+    setValue("observations", "");
     setValue("favoriteColorId", undefined as unknown as number);
     clearErrors();
   }
@@ -179,7 +179,7 @@ export function ClientForm() {
           label="Observações"
           placeholder="..."
           maxLength={1000}
-          {...register("obs")}
+          {...register("observations")}
         />
         <div className="flex flex-row gap-2">
           <Button
