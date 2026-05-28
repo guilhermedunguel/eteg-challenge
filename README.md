@@ -23,7 +23,7 @@
   <h3>⚙️ Decisões técnicas:</h3>
   <ul>
     <li>
-      <p><strong>Escopo limitado ao enunciado</strong>: a aplicação implementa apenas o caso de uso descrito — cadastro único de cliente, sem autenticação, listagem ou CRUD completo. Funcionalidades adicionais foram deliberadamente evitadas para não especular sobre necessidades que não foram validadas. Em um cenário real, seriam definidas em conversa com o time de produto antes da implementação.</p>
+      <p><strong>Escopo limitado ao enunciado</strong>: a aplicação implementa apenas o caso de uso descrito: cadastro único de cliente. Funcionalidades adicionais foram deliberadamente evitadas para não especular sobre necessidades que não foram validadas. Em um cenário real, seriam definidas em conversa com o time de produto antes da implementação.</p>
     </li>
     <li>
       <p><strong>Fastify</strong> no lugar de Express/NestJS: performance superior, suporte nativo a schema validation e plugin system bem estruturado.</p>
