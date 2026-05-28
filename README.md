@@ -83,7 +83,7 @@ cp .env.example .env
 
 <h3>🛠️ Modo desenvolvimento:</h3>
 
-<p>Hot reload no frontend (Vite dev server) e watcher no backend (<code>tsx --watch</code>). Ideal pra iteração rápida.</p>
+<p>Hot reload no frontend (Vite dev server) e watcher no backend (<code>tsx --watch</code>)</p>
 
 ```bash
 docker compose -f docker-compose.dev.yaml up
