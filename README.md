@@ -134,12 +134,16 @@ eteg-challenge/
 <h2>🧪 Testes:</h2>
 
 ```bash
+# Instala dependências (na raiz, monorepo pnpm)
+pnpm install
+
 # Backend
-cd packages/server
-pnpm test
+pnpm --filter server test
 
 # Frontend
-cd packages/web
+pnpm --filter web test
+
+# Ambos
 pnpm test
 ```
 <br>

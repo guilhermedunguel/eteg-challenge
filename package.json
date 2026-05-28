@@ -1,0 +1,11 @@
+{
+  "name": "eteg-challenge",
+  "private": true,
+  "scripts": {
+    "dev:server": "pnpm --filter server dev",
+    "dev:web": "pnpm --filter web dev",
+    "test": "pnpm --recursive test",
+    "test:server": "pnpm --filter server test",
+    "test:web": "pnpm --filter web test"
+  }
+}

@@ -4,12 +4,16 @@ RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
 
 ENV CI=true
 
-WORKDIR /app
+WORKDIR /repo
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY packages/web/package.json ./packages/web/
 
-COPY . .
+RUN pnpm install --frozen-lockfile --filter web
+
+COPY packages/web ./packages/web
+
+WORKDIR /repo/packages/web
 
 EXPOSE 3000
 

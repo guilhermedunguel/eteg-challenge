@@ -17,7 +17,8 @@ services:
 
   server:
     build:
-      context: ./packages/server
+      context: .
+      dockerfile: packages/server/Dockerfile
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
@@ -31,7 +32,8 @@ services:
     command: sh -c "pnpm drizzle-kit migrate && pnpm db:seed && pnpm dev"
   web:
     build:
-      context: ./packages/web
+      context: .
+      dockerfile: packages/web/Dockerfile
     ports:
       - "3000:3000"
     environment:

@@ -19,15 +19,13 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
-          cache-dependency-path: packages/server/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        working-directory: packages/server
 
       - name: Run tests
-        run: pnpm test
-        working-directory: packages/server
+        run: pnpm --filter server test
 
   test-web:
     runs-on: ubuntu-latest
@@ -43,12 +41,10 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
-          cache-dependency-path: packages/web/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        working-directory: packages/web
 
       - name: Run tests
-        run: pnpm test
-        working-directory: packages/web
+        run: pnpm --filter web test
