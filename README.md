@@ -1,6 +1,6 @@
 <h1 align='center'>ETEG Challenge - Cadastro de Clientes</h1>
 <br>
-<img src="https://i.imgur.com/3g63FZF.png" alt='projectBanner'>
+<img src="https://i.imgur.com/N5wwXQ7.png" alt='projectBanner'>
 <hr>
 
 <h2>🟢 Sobre:</h2>
@@ -80,6 +80,8 @@ docker compose up
 
 <h2>📁 Estrutura do projeto:</h2>
 
+<p>Monorepo gerenciado por <strong>pnpm workspaces</strong>. Lockfile e configuração de dependências centralizados na raiz.</p>
+
 ```
 eteg-challenge/
 ├── packages/
@@ -92,14 +94,20 @@ eteg-challenge/
 │   │   │   ├── errors/        # Classes de erro customizadas
 │   │   │   └── server.ts      # Entry point
 │   │   ├── Dockerfile
+│   │   └── package.json
 │   └── web/                   # Frontend (React + Vite + TypeScript)
 │       ├── src/
 │       │   ├── components/    # Componentes UI (Input, Button, SelectInput, etc)
 │       │   └── utils/         # Utilitários (máscaras, etc)
 │       ├── Dockerfile
+│       └── package.json
+├── .github/workflows/ci.yaml  # Pipeline de testes (server + web em paralelo)
 ├── .env.example
+├── .npmrc                     # Config do pnpm (supply-chain policies)
 ├── docker-compose.yaml
-└── .github/workflows/ci.yml
+├── package.json               # Workspace root
+├── pnpm-lock.yaml             # Lockfile único do monorepo
+└── pnpm-workspace.yaml        # Definição dos packages
 ```
 <br>
 
