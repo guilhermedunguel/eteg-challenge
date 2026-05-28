@@ -29,7 +29,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "pnpm drizzle-kit migrate && pnpm db:seed && pnpm dev"
+    command: sh -c "pnpm db:migrate && pnpm db:seed && pnpm dev"
   web:
     build:
       context: .

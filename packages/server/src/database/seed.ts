@@ -12,9 +12,14 @@ const colors = [
 ];
 
 async function seed() {
-  await db.insert(colorsTable).values(colors).onConflictDoNothing();
-
-  console.log("✅ Seed completed");
+  try {
+    await db.insert(colorsTable).values(colors).onConflictDoNothing();
+    console.log("✅ Seed completed");
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Seed failed:", error);
+    process.exit(1);
+  }
 }
 
 seed();
