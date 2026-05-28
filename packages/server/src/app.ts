@@ -50,8 +50,10 @@ app.register(fastifyScalar, {
 });
 
 app.register(cors, {
-  // Deixei o Cors aberto, ao colocar em produção seria ideal configurar adequadamente.
-  origin: true,
+  origin:
+    env.NODE_ENV === "development"
+      ? [/^http:\/\/localhost:\d+$/]
+      : env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim()),
 });
 
 app.setErrorHandler((error: FastifyError, request, reply) => {

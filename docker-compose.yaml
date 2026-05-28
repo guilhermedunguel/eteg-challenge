@@ -24,6 +24,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       SERVER_PORT: ${SERVER_PORT}
       NODE_ENV: development
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
     depends_on:
       db:
         condition: service_healthy
