@@ -23,6 +23,7 @@ export const colorsRoutes: FastifyPluginAsyncZod = async (app) => {
             }),
           ),
           500: z.object({
+            code: z.string(),
             message: z.string(),
           }),
         },

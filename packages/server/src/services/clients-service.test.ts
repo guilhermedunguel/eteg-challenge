@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ClientsService } from "./clients-service";
-import { ConflictError, ValidationError } from "../errors";
+import {
+  CpfAlreadyExistsError,
+  EmailAlreadyExistsError,
+  ValidationError,
+} from "../errors";
 
 const mockRepository = {
   findByCpf: vi.fn(),
@@ -12,7 +16,7 @@ const service = new ClientsService(mockRepository);
 
 describe("ClientsService", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   describe("create", () => {
@@ -46,7 +50,25 @@ describe("ClientsService", () => {
       };
 
       await expect(service.create(client)).rejects.toBeInstanceOf(
-        ConflictError,
+        CpfAlreadyExistsError,
+      );
+    });
+
+    it("should throw if Email already exists", async () => {
+      mockRepository.findByEmail.mockResolvedValue({
+        id: 1,
+        email: "john@email.com",
+      });
+
+      const client = {
+        name: "John Doe",
+        cpf: "12345678901",
+        email: "john@email.com",
+        favoriteColorId: 1,
+      };
+
+      await expect(service.create(client)).rejects.toBeInstanceOf(
+        EmailAlreadyExistsError,
       );
     });
 

@@ -3,7 +3,6 @@ import { clientSchema, ClientsService } from "../services/clients-service";
 import z from "zod";
 import { ClientsRepository } from "../repositories/clients-repository";
 import { db } from "../database";
-import { ConflictError, ValidationError } from "../errors";
 
 export const clientsRoutes: FastifyPluginAsyncZod = async (app) => {
   const clientsRepository = new ClientsRepository(db);
@@ -21,9 +20,15 @@ export const clientsRoutes: FastifyPluginAsyncZod = async (app) => {
             id: z.number(),
           }),
           409: z.object({
+            code: z.string(),
             message: z.string(),
           }),
           400: z.object({
+            code: z.string(),
+            message: z.string(),
+          }),
+          500: z.object({
+            code: z.string(),
             message: z.string(),
           }),
         },

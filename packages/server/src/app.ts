@@ -58,22 +58,31 @@ app.register(cors, {
 
 app.setErrorHandler((error: FastifyError, request, reply) => {
   if (error instanceof AppError) {
-    return reply.status(error.statusCode).send({ message: error.message });
+    return reply
+      .status(error.statusCode)
+      .send({ code: error.code, message: error.message });
   }
 
   if (error instanceof ZodError) {
     return reply.status(400).send({
+      code: "VALIDATION_ERROR",
       message: "Validation error",
       issues: z.flattenError(error).fieldErrors,
     });
   }
 
   if (error.statusCode && error.statusCode < 500) {
-    return reply.status(error.statusCode).send({ message: error.message });
+    return reply.status(error.statusCode).send({
+      code: error.code ?? "BAD_REQUEST",
+      message: error.message,
+    });
   }
 
   request.log.error(error);
-  return reply.status(500).send({ message: "Internal server error" });
+  return reply.status(500).send({
+    code: "INTERNAL_ERROR",
+    message: "Internal server error",
+  });
 });
 
 // Routes

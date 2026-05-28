@@ -3,7 +3,11 @@ import {
   ClientDTO,
   IClientsRepository,
 } from "../repositories/clients-repository";
-import { ConflictError, ValidationError } from "../errors";
+import {
+  EmailAlreadyExistsError,
+  CpfAlreadyExistsError,
+  ValidationError,
+} from "../errors";
 
 export const clientSchema = z.object({
   name: z.string().min(1).max(255),
@@ -28,7 +32,7 @@ export class ClientsService {
     const clientByCpf = await this.repository.findByCpf({ cpf: client.cpf });
 
     if (clientByCpf) {
-      throw new ConflictError("CPF already exists");
+      throw new CpfAlreadyExistsError();
     }
 
     const clientByEmail = await this.repository.findByEmail({
@@ -36,7 +40,7 @@ export class ClientsService {
     });
 
     if (clientByEmail) {
-      throw new ConflictError("Email already exists");
+      throw new EmailAlreadyExistsError();
     }
 
     return await this.repository.insert(parsedClient.data);
