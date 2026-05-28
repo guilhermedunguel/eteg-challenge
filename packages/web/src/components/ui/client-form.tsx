@@ -75,14 +75,14 @@ export function ClientForm() {
 
       switch (response.status) {
         case 409:
-          if (error.message?.includes("CPF")) {
+          if (error.code === "CPF_TAKEN") {
             toast.error("Erro ao cadastrar", {
               description: "O CPF inserido já está em uso",
             });
             setError("cpf", { message: "CPF já está em uso" });
             return;
           }
-          if (error.message?.includes("Email")) {
+          if (error.code === "EMAIL_TAKEN") {
             toast.error("Erro ao cadastrar", {
               description: "O e-mail inserido já está em uso",
             });
@@ -109,9 +109,7 @@ export function ClientForm() {
   return (
     <form
       className="flex w-full flex-col gap-8"
-      onSubmit={handleSubmit(onSubmit, (errors) => {
-        console.log("ERRORS:", errors);
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <header className="flex flex-col">
         <h1 className="text-neutral-700 font-medium text-2xl">
@@ -138,9 +136,9 @@ export function ClientForm() {
           placeholder="000.000.000-00"
           error={formState.errors.cpf?.message}
           {...register("cpf", {
-            onChange: (e) => {
-              const raw = e.target.value.replace(/\D/g, "").slice(0, 11);
-              e.target.value = cpfApplyMask(raw);
+            onChange: (event) => {
+              const raw = event.target.value.replace(/\D/g, "").slice(0, 11);
+              event.target.value = cpfApplyMask(raw);
             },
           })}
         />
@@ -154,7 +152,10 @@ export function ClientForm() {
         />
         <ErrorBoundary
           fallback={
-            <p className="text-sm text-red-500">Erro ao carregar cores.</p>
+            <p className="text-sm text-red-500">
+              Erro ao carregar cores... Não foi possível se comunicar com o
+              servidor.
+            </p>
           }
         >
           <Suspense

@@ -45,7 +45,7 @@ function renderForm() {
 
 describe("ClientForm", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it("should render all form fields", () => {
