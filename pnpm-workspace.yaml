@@ -1,8 +1,5 @@
 packages:
   - "packages/*"
 
-minimumReleaseAge: 1440
-minimumReleaseAgeStrict: false
-
 allowBuilds:
   esbuild: true

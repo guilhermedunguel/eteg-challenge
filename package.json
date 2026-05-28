@@ -1,5 +1,6 @@
 {
   "name": "eteg-challenge",
+  "packageManager": "pnpm@10.28.2",
   "private": true,
   "scripts": {
     "dev:server": "pnpm --filter server dev",
