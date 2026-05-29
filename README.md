@@ -47,7 +47,7 @@
       <p><strong>Testes unitários nos services e componentes</strong>: validam lógica de negócio (duplicidade de CPF/email) e comportamento do formulário (máscara, validação, submit, reset).</p>
     </li>
     <li>
-      <p><strong>Setup Docker em dois modos</strong> (dev/prod): desenvolvimento com hot reload e watchers para iteração rápida, produção com builds multi-stage, imagens enxutas e código compilado — espelhando o que sobe em deploy real.</p>
+      <p><strong>Setup Docker em dois modos</strong> (dev/prod): desenvolvimento com hot reload e watchers para iteração rápida, produção com builds multi-stage, imagens enxutas e código compilado espelhando o que sobe em deploy real.</p>
     </li>
   </ul>
 <br>
